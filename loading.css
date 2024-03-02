@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background: url("images/man-neon-suit-sits-chair-with-neon-sign-that-says-word-it.jpg"); /* Replace 'background-image.jpg' with your image file */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loading-container {
+  background: transparent;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+#loading-text {
+  margin: 0;
+  font-size: 60px;
+  font-weight: 600;
+  color: white;
+}
