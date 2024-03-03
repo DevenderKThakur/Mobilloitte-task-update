@@ -1,7 +1,7 @@
 // loading of the website
 document.addEventListener("DOMContentLoaded", function () {
-  var loadingText = document.getElementById("loading-text");
-  var percentage = 0;
+  let  loadingText = document.getElementById("loading-text");
+  let  percentage = 0;
 
   function updateLoadingText() {
     loadingText.textContent = "Loading: " + percentage + "%";
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (percentage < 100) {
       percentage++;
       updateLoadingText();
-      setTimeout(increasePercentage, 20); // Adjust the timing as needed
+      setTimeout(increasePercentage, 25); // Adjust the timing as needed
     } else {
       document.getElementById("loading-container").style.display = "none";
     }
