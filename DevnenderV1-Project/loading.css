@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: "Arial", sans-serif;
-  background: url("images/man-neon-suit-sits-chair-with-neon-sign-that-says-word-it.jpg"); /* Replace 'background-image.jpg' with your image file */
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("images/man-neon-suit-sits-chair-with-neon-sign-that-says-word-it.jpg"); 
   background-size: cover;
   background-position: center;
   display: flex;
