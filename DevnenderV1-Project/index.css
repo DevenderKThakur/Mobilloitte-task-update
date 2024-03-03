@@ -216,6 +216,21 @@ input[type="radio"] {
   font-size: 13px;
 }
 
+.slideImage{
+  background-color: #1180e0;
+  border: 0;
+  outline: 0;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 15px 30px;
+}
+
+.slideImage a{
+  color: white;
+  text-decoration: none;
+}
+
 /* footer */
 .footer {
   padding: 50px 15% 10px;

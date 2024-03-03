@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Slider</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="slider-container">
+      <div class="slider-images">
+        <div class="slider-img">
+          <img src="Images/3d-internet-secuirty-badge.jpg" alt="1" />
+          <h1>Blockchain</h1>
+          <div class="details">
+            <h2>Blockchain</h2>
+            <p>Decentralization</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="Images/3d-rendering-woman-with-vr-glasses_23-2150898502.jpg" alt="2" />
+          <h1>Metaverse</h1>
+          <div class="details">
+            <h2>Metaverse</h2>
+            <p>Virtual Reality</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="Images/ai-generated-7836741_1280.jpg" alt="3" />
+          <h1>Gaming</h1>
+          <div class="details">
+            <h2>Gaming</h2>
+            <p>P2E gaming</p>
+          </div>
+        </div>
+        <div class="slider-img active">
+          <img src="Images/art-7737624_1280.jpg" alt="4" />
+          <h1>Gaming</h1>
+          <div class="details">
+            <h2>Gaming</h2>
+            <p>Virtual Reality Gaming</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="Images/blockchain-3513216_1280.jpg" alt="5" />
+          <h1>Blockchain</h1>
+          <div class="details">
+            <h2>Blockchain</h2>
+            <p>NFT</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="Images/metaverse-concept-collage-design.jpg" alt="6" />
+          <h1>Metaverse</h1>
+          <div class="details">
+            <h2>Metaverse</h2>
+            <p>Augmented Reality</p>
+          </div>
+        </div>
+        <div class="slider-img">
+          <img src="Images/technology-7996059_1280.jpg" alt="7" />
+          <h1>IOT</h1>
+          <div class="details">
+            <h2>IOT</h2>
+            <p>Connection of maching 2 machine </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="js/jQuery.js"></script>
+    <script>
+      jQuery(document).ready(function ($) {
+        $(".slider-img").on("click", function () {
+          $(".slider-img").removeClass("active");
+          $(this).addClass("active");
+        });
+      });
+    </script>
+  </body>
+</html>
