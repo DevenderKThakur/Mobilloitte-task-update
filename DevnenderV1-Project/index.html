@@ -36,7 +36,14 @@
                 <p>Blockchain Solutions, we specialize in Public, Private, and Hybrid Blockchain Development, Smart Contract Audits, NFT Marketplace Creation, and DeFi Applications. Our services emphasize security, scalability, and customer satisfaction, leveraging innovative technology across various industries.</p>
             </div>
             <div class="img-col">
-                <img src="images/server-room-rack-blockchain-technology-token-api-access-data-center_39422-442.avif" alt="">
+                <img src="images/server-room-rack-blockchain-technology-token-api-access-data-center_39422-442.avif" alt="" onclick="openPopup()">
+                <div id="overlay" onclick="closePopup()"></div>
+                <div id="popup">
+                    <h3>What is blockchain?</h3>
+                     <p>
+                        Blockchain is a shared, immutable ledger that facilitates the process of recording transactions and tracking assets in a business network. Business runs on information. The faster information is received and the more accurate it is, the better. Blockchain is ideal for delivering that information because it provides immediate, shared, and observable information that is stored on an immutable ledger that only permissioned network members can access. A blockchain network can track orders, payments, accounts, production and much more. And because members share a single view of the truth, you can see all details of a transaction end to end, giving you greater confidence, and new efficiencies and opportunities.</p>
+                <center><button onclick="closePopup()" class="popupbutton">Close</button></center>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -171,4 +178,15 @@
         <p class="copyright-text">Copyright © 2024 Mobiloitte(devender.thakur@indicchain.com)</p>
     </div>
   </body>
+  <script>
+    function openPopup() {
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("popup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("overlay").style.display = "none";
+        document.getElementById("popup").style.display = "none";
+      }
+  </script>
 </html>
