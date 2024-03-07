@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <title>Validation Form</title>
+  </head>
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #form-container {
+      background-color: white;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      /* width: 45vw; */
+      box-shadow: 4px 3px 4px rgb(255, 255, 255, 0.5);
+    }
+
+    h1 {
+      margin: 0px 0px 10px 0px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0px;
+      padding: 2px;
+      border-right: none;
+      border-left: none;
+      border-top: none;
+    }
+
+    input[type="submit"] {
+      background-color: rgba(19, 103, 151, 0.418);
+      color: white;
+      border: none;
+      width: 225px;
+      text-align: center;
+      left: 10%;
+      padding: 10px;
+      color: black;
+      font-size: medium;
+    }
+    .sub {
+      display: flex;
+      justify-content: center;
+    }
+
+    .error {
+      color: red;
+      margin: 0px;
+      text-align: left;
+    }
+
+    #id {
+      display: flex;
+      flex-direction: row;
+      /* justify-content: center; */
+      align-items: center;
+    }
+
+    #terms {
+      width: 2%;
+      margin-right: 1%;
+    }
+
+    .valid {
+      color: green;
+    }
+
+    .invalid {
+      color: red;
+      border: 1px solid red;
+    }
+  </style>
+  <body>
+    <div id="form-container">
+      <form onsubmit="validateForm(event)" method="post" id="formId">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          oninput="checkUsernameAvailability()"
+          class="input-field"
+          required
+        />
+        <div id="username-feedback" class="error"></div>
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          oninput="checkPasswordStrength()"
+          class="input-field"
+          required
+        />
+        <div id="password-feedback" class="error"></div>
+
+        <label for="dob">Date of Birth:</label>
+        <input
+          type="date"
+          id="dob"
+          placeholder="YYYY-MM-DD"
+          oninput="validateDateOfBirth()"
+          class="input-field"
+          required
+        />
+        <div id="dob-feedback" class="error"></div>
+
+        <label for="phone">Phone Number:</label>
+        <input
+          type="tel"
+          id="phone"
+          placeholder="e.g., +1 123-456-7890"
+          oninput="validatePhoneNumber()"
+          class="input-field"
+          required
+        />
+        <div id="phone-feedback" class="error"></div>
+
+        <label for="email">E-mail address:</label>
+        <input
+          type="email"
+          id="email"
+          oninput="validateEmail()"
+          class="input-field"
+          required
+        />
+        <div id="email-feedback" class="error"></div>
+
+        <label for="confirm-email">Confirm E-mail address:</label>
+        <input
+          type="email"
+          id="confirm-email"
+          oninput="validateConfirmEmail()"
+          class="input-field"
+          required
+        />
+        <div id="confirm-email-feedback" class="error"></div>
+
+        <!-- <div class="g-recaptcha">
+          <label for="captcha">CAPTCHA:</label>
+          <input type="text" id="captcha" name="captcha" required />
+          <span id="captchaError" class="error"></span><br />
+
+          <img src="#" alt="CAPTCHA Image" id="captchaImage" /><br />
+          <button type="button" onclick="generateCaptcha()">
+            Refresh CAPTCHA
+          </button>
+        </div> -->
+        <div
+          class="g-recaptcha"
+          data-sitekey="6LfGkY8pAAAAAKCWoLp4asbOatemnwCmpQVVOAp5"
+          style="margin-top: 5px"
+        ></div>
+
+        <div id="captcha-feedback" class="error"></div>
+
+        <label for="terms" id="id">
+          <input type="checkbox" id="terms" required />I accept the terms and
+          conditions</label
+        >
+        <div id="terms-feedback" class="error"></div>
+        <br />
+
+        <div class="sub">
+          <input type="Submit" id="submitButton" value="Submit" /
+          style="background-color: rgba(19, 134, 187, 0.582); color: white;">
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function checkUsernameAvailability() {
+        var usernameInput = document.getElementById("username");
+        var feedbackDiv = document.getElementById("username-feedback");
+
+        usernameInput.addEventListener("input", function () {
+          var username = usernameInput.value.trim();
+
+          if (username === "") {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            return;
+          }
+
+          if (username.length < 3) {
+            feedbackDiv.textContent =
+              "Username is too short (minimum length is 3 characters)";
+            feedbackDiv.className = "invalid";
+            return;
+          }
+
+          setTimeout(function () {
+            var isAvailable = Math.random() < 0.8;
+
+            if (isAvailable) {
+              feedbackDiv.textContent = "Username is available";
+              feedbackDiv.className = "valid";
+            } else {
+              feedbackDiv.textContent = "Username is not available";
+              feedbackDiv.className = "invalid";
+            }
+          }, 500);
+        });
+      }
+
+      checkUsernameAvailability();
+
+      function checkPasswordStrength() {
+        var passwordInput = document.getElementById("password");
+        var strengthMeter = document.getElementById("password-feedback");
+
+        // Add an event listener for input changes
+        passwordInput.addEventListener("input", function () {
+          // Get the current value of the password
+          var password = passwordInput.value;
+
+          // Clear existing feedback when the user deletes the data
+          if (password === "") {
+            strengthMeter.textContent = "";
+            strengthMeter.style.color = "";
+            return;
+          }
+
+          // Password strength criteria (modify as needed)
+          var minLength = 8;
+          var length = password.length >= minLength;
+          var hasUppercase = /[A-Z]/.test(password);
+          var hasLowercase = /[a-z]/.test(password);
+          var hasNumber = /\d/.test(password);
+          var hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(
+            password
+          );
+
+          // Calculate overall strength
+          var strength = 0;
+          if (length) strength++;
+          if (hasUppercase) strength++;
+          if (hasLowercase) strength++;
+          if (hasNumber) strength++;
+          if (hasSpecialChar) strength++;
+
+          // Display strength message considering length
+          var strengthMessage = "";
+          var textColor = "";
+
+          if (length && strength === 5) {
+            strengthMessage = "Strong";
+            textColor = "green";
+          } else if (length && strength >= 3) {
+            strengthMessage = "Moderate";
+            textColor = "orange";
+          } else {
+            strengthMessage = "Weak (Minimum length is " + minLength + ")";
+            textColor = "red";
+          }
+
+          strengthMeter.textContent = "Password Strength: " + strengthMessage;
+          strengthMeter.style.color = textColor;
+        });
+      }
+
+      checkPasswordStrength();
+
+      function validateDateOfBirth() {
+        var dobInput = document.getElementById("dob");
+        var feedbackDiv = document.getElementById("dob-feedback");
+
+        // Add an event listener for input changes
+        dobInput.addEventListener("input", function () {
+          // Get the current value of the date of birth
+          var dob = dobInput.value.trim();
+
+          // Clear existing feedback when the user deletes the data
+          if (dob === "") {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            return;
+          }
+
+          // Regular expression to validate date format (YYYY-MM-DD)
+          var dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+          // Check if the input matches the expected date format
+          if (!dateFormatRegex.test(dob)) {
+            feedbackDiv.textContent =
+              "Invalid date format. Please use YYYY-MM-DD.";
+            feedbackDiv.className = "error";
+          } else {
+            // Parse the input date string into a Date object
+            var dobDate = new Date(dob);
+
+            // Calculate age
+            var today = new Date();
+            var age = today.getFullYear() - dobDate.getFullYear();
+            var monthDiff = today.getMonth() - dobDate.getMonth();
+
+            if (
+              monthDiff < 0 ||
+              (monthDiff === 0 && today.getDate() < dobDate.getDate())
+            ) {
+              age--;
+            }
+
+            // Check if the age is below 18
+            if (age < 18) {
+              feedbackDiv.textContent =
+                "Date of birth is valid format, but age must be 18 or older.";
+              feedbackDiv.className = "error";
+            } else {
+              // Display validation feedback
+              feedbackDiv.textContent =
+                "Date of birth is valid. Age: " + age + " years.";
+              feedbackDiv.className = "valid";
+            }
+          }
+        });
+      }
+
+      // Call the function to initialize the event listener
+      validateDateOfBirth();
+
+      // Add an event listener for form submission
+      var form = document.getElementById("formId");
+      form.addEventListener("submit", validateForm);
+
+      var submitButton = document.getElementById("submitButton");
+      submitButton.addEventListener("click", function () {
+        form.submit();
+      });
+
+      function validateForm(event) {
+        // Perform all validations
+        validateDateOfBirth();
+        checkUsernameAvailability();
+        checkPasswordStrength();
+        validatePhoneNumber();
+        validateEmail();
+        validateConfirmEmail();
+
+        // Check if the terms and conditions checkbox is checked
+        var termsCheckbox = document.getElementById("terms");
+        var termsFeedbackDiv = document.getElementById("terms-feedback");
+
+        if (!termsCheckbox.checked) {
+          termsFeedbackDiv.textContent =
+            "You must accept the terms and conditions.";
+          termsFeedbackDiv.className = "error";
+        } else {
+          termsFeedbackDiv.textContent = "";
+        }
+
+        // Validate the reCAPTCHA response
+        var captchaResponse = grecaptcha.getResponse();
+        var captchaFeedbackDiv = document.getElementById("captcha-feedback");
+
+        if (!captchaResponse) {
+          captchaFeedbackDiv.textContent = "Please complete the CAPTCHA.";
+          captchaFeedbackDiv.className = "error";
+        } else {
+          // Validate the user-entered CAPTCHA
+          var isValidCaptcha = validateCaptcha();
+
+          // If CAPTCHA validation fails, update the feedback
+          if (!isValidCaptcha) {
+            captchaFeedbackDiv.textContent = "CAPTCHA verification failed.";
+            captchaFeedbackDiv.className = "error";
+          } else {
+            captchaFeedbackDiv.textContent = "";
+          }
+        }
+
+        // If there are any errors, prevent form submission and show an alert
+        var invalidElements = document.querySelectorAll(".error");
+        if (invalidElements.length > 0) {
+          alert(
+            "Form submission unsuccessful. Please check and correct the highlighted errors."
+          );
+          return false; // Prevent form submission
+        } else {
+          // If there are no errors, display an alert for successful submission
+          alert("Form submitted successfully!");
+          // Reset the form or navigate to another page if needed
+          // form.reset();
+          return true; // Allow form submission
+        }
+      }
+
+      function validatePhoneNumber() {
+        var phoneInput = document.getElementById("phone");
+        var feedbackDiv = document.getElementById("phone-feedback");
+
+        // Add an event listener for input changes
+        phoneInput.addEventListener("input", function () {
+          // Get the current value of the phone number
+          var phone = phoneInput.value.trim();
+
+          // Clear existing feedback when the user deletes the data
+          if (phone === "") {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            return;
+          }
+
+          // Regular expression to validate phone number format
+          var phoneFormatRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+
+          // Check if the input matches the expected phone number format
+          if (!phoneFormatRegex.test(phone)) {
+            feedbackDiv.textContent = "Invalid phone number format.";
+            feedbackDiv.className = "error";
+          } else {
+            feedbackDiv.textContent = "Phone number format is valid.";
+            feedbackDiv.className = "valid";
+          }
+        });
+      }
+
+      // Call the function to initialize the event listener
+      validatePhoneNumber();
+
+      function validateEmail() {
+        var emailInput = document.getElementById("email");
+        var feedbackDiv = document.getElementById("email-feedback");
+
+        // Add an event listener for input changes
+        emailInput.addEventListener("input", function () {
+          // Get the current value of the email address
+          var email = emailInput.value.trim();
+
+          // Clear existing feedback when the user deletes the data
+          if (email === "") {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            return;
+          }
+
+          // Regular expression for basic email format validation
+          var emailFormatRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+/;
+
+          // Regular expression to check if the starting letter is not numeric
+          var startingLetterRegex = /^[^0-9]/;
+
+          // Simple email format validation using HTML5 built-in validation
+          if (!emailInput.checkValidity()) {
+            feedbackDiv.textContent = "Invalid email format.";
+            feedbackDiv.className = "error";
+            emailInput.classList.add("invalid");
+          } else if (!emailFormatRegex.test(email)) {
+            feedbackDiv.textContent =
+              "Invalid email format. Please enter a valid email address.";
+            feedbackDiv.className = "error";
+            emailInput.classList.add("invalid");
+          } else if (!startingLetterRegex.test(email)) {
+            feedbackDiv.textContent =
+              "Invalid email format. Email address should not start with a numeric value.";
+            feedbackDiv.className = "error";
+            emailInput.classList.add("invalid");
+          } else {
+            feedbackDiv.textContent = "Email format is valid.";
+            feedbackDiv.className = "valid";
+            emailInput.classList.remove("invalid");
+          }
+        });
+      }
+
+      // Call the function to initialize the event listener
+      validateEmail();
+
+      function validateConfirmEmail() {
+        var confirmEmailInput = document.getElementById("confirm-email");
+        var emailInput = document.getElementById("email");
+        var feedbackDiv = document.getElementById("confirm-email-feedback");
+
+        // Add an event listener for input changes
+        confirmEmailInput.addEventListener("input", function () {
+          // Get the current values of the email and confirm email addresses
+          var email = emailInput.value.trim();
+          var confirmEmail = confirmEmailInput.value.trim();
+
+          // Clear existing feedback when the user deletes the data
+          if (confirmEmail === "") {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            confirmEmailInput.classList.remove("invalid");
+            return;
+          }
+
+          // Check if the confirm email matches the email
+          if (confirmEmail !== email) {
+            feedbackDiv.textContent = "Email confirmation does not match.";
+            feedbackDiv.className = "error";
+            confirmEmailInput.classList.add("invalid");
+          } else {
+            feedbackDiv.textContent = "";
+            feedbackDiv.className = "";
+            confirmEmailInput.classList.remove("invalid");
+          }
+        });
+      }
+
+      // Call the function to initialize the event listener
+      validateConfirmEmail();
+
+      function generateRandomString(length) {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+          );
+        }
+        return result;
+      }
+
+      function generateCaptcha() {
+        const captchaInput = document.getElementById("captcha");
+        const captchaImage = document.getElementById("captchaImage");
+        const captchaError = document.getElementById("captchaError");
+
+        // Generate a random string for the CAPTCHA
+        const captchaText = generateRandomString(4);
+
+        // Set the CAPTCHA text to the input field
+        captchaInput.value = "";
+        captchaInput.placeholder = "Enter the CAPTCHA";
+        captchaInput.setAttribute(
+          "data-correct-captcha",
+          captchaText.toLowerCase()
+        );
+
+        // Display the CAPTCHA image
+        captchaImage.src =
+          "https://via.placeholder.com/150?text=" + captchaText;
+
+        // Clear any previous error messages
+        captchaError.innerText = "";
+      }
+      generateCaptcha();
+
+      function validateCaptcha() {
+        const captchaInput = document.getElementById("captcha");
+        const captchaError = document.getElementById("captchaError");
+        const userEnteredCaptcha = captchaInput.value.trim().toLowerCase();
+        const correctCaptcha = captchaInput.getAttribute(
+          "data-correct-captcha"
+        );
+
+        if (userEnteredCaptcha !== correctCaptcha) {
+          captchaError.innerText = "CAPTCHA verification failed";
+          captchaError.style.color = "red";
+          return false;
+        }
+
+        captchaError.innerText = "";
+        return true;
+      }
+    </script>
+  </body>
+</html>
