@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Join our Community</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+  <body>
+    <div id="form-container">
+      <form onsubmit="validateForm(event)" method="post" action="">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          oninput="checkUsernameAvailability()"
+          class="input-field"
+          required
+        />
+        <div id="username-feedback" class="error"></div>
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          oninput="checkPasswordStrength()"
+          class="input-field"
+          required
+        />
+        <div id="password-feedback" class="error"></div>
+
+        <label for="dob">Date of Birth:</label>
+        <input
+          type="date"
+          id="dob"
+          placeholder="YYYY-MM-DD"
+          onblur="validateDateOfBirth()"
+          required
+        />
+        <div id="dob-feedback"></div>
+
+        <label for="phone">Phone Number:</label>
+        <input
+          type="tel"
+          id="phone"
+          placeholder="e.g., +1 123-456-7890"
+          oninput="validatePhoneNumber()"
+          class="input-field"
+          required
+        />
+        <div id="phone-feedback" class="error"></div>
+
+        <label for="email">Enter your email address:</label>
+        <input
+          type="email"
+          id="email"
+          oninput="validateEmail()"
+          class="input-field"
+          required
+        />
+        <div id="email-feedback" class="error"></div>
+
+        <label for="confirm-email">Confirm your email address:</label>
+        <input
+          type="email"
+          id="confirm-email"
+          oninput="validateConfirmEmail()"
+          class="input-field"
+          required
+        />
+        <div id="confirm-email-feedback" class="error"></div>
+
+        <label for="terms" class="termslabel">
+          I accept the terms and conditions
+          <input type="checkbox" id="terms" required />
+        </label>
+        <div id="terms-feedback" class="error"></div>
+
+        <!-- <div
+          class="g-recaptcha"
+          data-sitekey="6LfGkY8pAAAAAKCWoLp4asbOatemnwCmpQVVOAp5"
+          style="margin-top: 5px"
+        ></div>
+        <div id="captcha-feedback" class="error"></div> -->
+
+        <button type="submit" class="btn" onclick="submit()">Submit</button>
+      </form>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
